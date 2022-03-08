@@ -1,5 +1,6 @@
 // adding our dependencies 
 const express = require('express');
+const mysql = require('mysql2');
 // enviorment variable 
 const PORT = process.env.PORT || 3001;
 // allowing use to create routes using app.
@@ -7,6 +8,24 @@ const app = express();
 // middle ware 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Connect to database
+const db = mysql.createConnection(
+    {
+    host: 'localhost',
+    // YOur MySQL username,
+    user: 'root',
+    // Your MySQL password,
+    password: 'Mustang2015!',
+    database: 'election'
+    },
+    console.log('Connected to the election database.')
+);
+
+// return all data from 'candidates' table
+db.query(`SELECT * FROM candidates`, (err, rows) => {
+    console.log(rows)
+});
 
 //GET routes
 app.get('/', (req, res) => {
